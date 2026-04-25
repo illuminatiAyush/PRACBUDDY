@@ -1,0 +1,1047 @@
+/* ============================================================
+   ASMVAULT — Pixel-Perfect DOSBox Theme
+   Matches real DOSBox 0.74-3 appearance exactly
+   ============================================================ */
+
+/* === CSS Custom Properties === */
+:root {
+  /* DOS CGA 16-color palette — exact values */
+  --dos-black: #000000;
+  --dos-blue: #0000AA;
+  --dos-green: #00AA00;
+  --dos-cyan: #00AAAA;
+  --dos-red: #AA0000;
+  --dos-magenta: #AA00AA;
+  --dos-brown: #AA5500;
+  --dos-light-gray: #AAAAAA;
+  --dos-dark-gray: #555555;
+  --dos-bright-blue: #5555FF;
+  --dos-bright-green: #55FF55;
+  --dos-bright-cyan: #55FFFF;
+  --dos-bright-red: #FF5555;
+  --dos-bright-magenta: #FF55FF;
+  --dos-yellow: #FFFF55;
+  --dos-white: #FFFFFF;
+
+  /* Functional aliases */
+  --bg-primary: var(--dos-blue);
+  --bg-titlebar: #000080;
+  --text-primary: var(--dos-light-gray);
+  --text-bright: var(--dos-white);
+  --text-highlight: var(--dos-yellow);
+  --text-success: var(--dos-bright-green);
+  --text-error: var(--dos-bright-red);
+  --text-info: var(--dos-bright-cyan);
+  --text-link: var(--dos-bright-red);
+
+  /* Typography — STRICT MONOSPACE ONLY */
+  --font-dos: 'Courier New', 'Lucida Console', monospace;
+  --font-size-base: 14px;
+  --line-height: 1.5;
+}
+
+/* === Reset & Base === */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+body {
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  color: var(--text-primary);
+  background: var(--dos-black);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  text-rendering: pixelated;
+  font-variant-ligatures: none;
+  letter-spacing: 0;
+  font-weight: normal;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* === DOSBox Window Container === */
+.dosbox-window {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--dos-black);
+  position: relative;
+}
+
+/* === Title Bar — Exact DOSBox Match === */
+.titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  background: linear-gradient(to right, #000080, #1084d0);
+  padding: 0 4px;
+  flex-shrink: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.titlebar-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.titlebar-icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+.titlebar-left {
+  display: flex;
+  align-items: center;
+}
+
+.titlebar-text {
+  color: var(--dos-white);
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titlebar-buttons {
+  display: flex;
+  gap: 2px;
+}
+
+.titlebar-btn {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--dos-white);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  cursor: default;
+  border-radius: 0;
+  padding: 0;
+}
+
+.titlebar-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.titlebar-btn.close:hover {
+  background: #c42b1c;
+}
+
+/* === Main Terminal Area === */
+.terminal-body {
+  flex: 1;
+  background: var(--dos-black);
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Boot box container */
+.boot-box-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 12px 8px;
+  background: var(--dos-black);
+}
+
+/* Boot box with authentic DOS border */
+.boot-box {
+  background: var(--bg-primary);
+  border: 1px solid var(--dos-white);
+  border-right: 1px solid var(--dos-light-gray);
+  border-bottom: 1px solid var(--dos-light-gray);
+  padding: 6px 8px;
+  width: 85%;
+  max-width: none;
+  color: var(--dos-white);
+  font-weight: normal;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+}
+
+/* CRT Scanline Overlay */
+.terminal-body::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.06) 0px,
+    rgba(0, 0, 0, 0.06) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.terminal-content {
+  position: relative;
+  z-index: 0;
+  flex: 1;
+  background: var(--dos-black);
+  color: var(--dos-light-gray);
+  padding: 8px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+}
+
+.terminal-line {
+  white-space: pre;
+  word-break: break-word;
+  line-height: var(--line-height);
+  margin: 0;
+  padding: 0;
+  color: var(--dos-light-gray);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  font-weight: normal;
+  letter-spacing: 0;
+}
+
+/* === Blinking Cursor === */
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 1s step-end infinite;
+  color: var(--text-primary);
+}
+
+.cursor::after {
+  content: '_';
+}
+
+/* === Text Colors (matching real DOSBox) === */
+.text-white { color: var(--dos-white); }
+.text-gray { color: var(--dos-light-gray); }
+.text-green { color: var(--dos-green); }
+.text-bright-green { color: var(--dos-bright-green); }
+.text-yellow { color: var(--dos-yellow); }
+.text-red { color: var(--dos-bright-red); }
+.text-cyan { color: var(--dos-bright-cyan); }
+.text-bright-blue { color: var(--dos-bright-blue); }
+.text-magenta { color: var(--dos-bright-magenta); }
+.text-dark-red { color: var(--dos-red); }
+
+/* === Boot Sequence === */
+.boot-sequence {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+}
+
+.boot-line {
+  white-space: pre;
+  word-break: break-word;
+  line-height: var(--line-height);
+  margin: 0;
+  padding: 0;
+  color: var(--dos-white);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  font-weight: normal;
+  letter-spacing: 0;
+}
+
+.boot-welcome {
+  color: var(--dos-bright-green);
+  font-weight: normal;
+}
+
+.boot-text {
+  color: var(--dos-white);
+  font-weight: normal;
+}
+
+.boot-highlight-red {
+  color: var(--dos-bright-red);
+  font-weight: normal;
+}
+
+.boot-highlight-yellow {
+  color: var(--dos-yellow);
+  font-weight: normal;
+}
+
+.boot-highlight-cyan {
+  color: var(--dos-bright-cyan);
+  font-weight: normal;
+}
+
+.boot-highlight-green {
+  color: var(--dos-bright-green);
+  font-weight: normal;
+}
+
+.text-gray {
+  color: var(--dos-light-gray);
+  font-weight: normal;
+}
+
+/* Typewriter animation */
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typewriter-line {
+  overflow: hidden;
+  white-space: pre;
+  display: inline-block;
+}
+
+/* === Prompt Line === */
+.prompt-line {
+  display: flex;
+  white-space: pre;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.prompt-path {
+  color: var(--text-primary);
+}
+
+.prompt-input {
+  color: var(--text-primary);
+}
+
+/* === File Listing (DIR View) === */
+.dir-header {
+  color: var(--text-primary);
+  white-space: pre;
+  margin-bottom: 0;
+}
+
+.dir-separator {
+  color: var(--text-primary);
+  white-space: pre;
+  user-select: none;
+}
+
+.file-list-container {
+  position: relative;
+}
+
+/* === File Row === */
+.file-row {
+  display: flex;
+  align-items: center;
+  white-space: pre;
+  color: var(--text-primary);
+  cursor: default;
+  position: relative;
+  padding: 0;
+  min-height: var(--char-height);
+  transition: none;
+}
+
+.file-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.file-row:hover .file-name {
+  color: var(--dos-yellow);
+}
+
+.file-name {
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: color 0.05s;
+}
+
+.file-name:hover {
+  text-decoration: none;
+}
+
+.file-ext {
+  color: var(--text-primary);
+}
+
+.file-size {
+  color: var(--text-primary);
+  text-align: right;
+  min-width: 80px;
+}
+
+.file-date {
+  color: var(--text-primary);
+  margin-left: 8px;
+}
+
+/* Copy status indicator */
+.file-copy-status {
+  color: var(--dos-bright-green);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  min-width: 100px;
+}
+
+/* View button — hidden by default, shown on hover */
+.file-view-btn {
+  background: none;
+  border: none;
+  color: transparent;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  padding: 0 4px;
+  margin-left: auto;
+  transition: color 0.05s;
+  user-select: none;
+}
+
+.file-row:hover .file-view-btn {
+  color: var(--dos-bright-cyan);
+}
+
+.file-view-btn:hover {
+  color: var(--dos-black) !important;
+  background: var(--dos-bright-cyan);
+}
+
+/* Row click-to-copy cursor + copied flash */
+.file-row {
+  cursor: pointer;
+}
+
+.file-row-copied {
+  background: rgba(85, 255, 85, 0.1) !important;
+}
+
+@keyframes copiedFlash {
+  0% { background: rgba(85, 255, 85, 0.25); }
+  100% { background: transparent; }
+}
+
+.file-row-copied {
+  animation: copiedFlash 1.5s ease-out forwards;
+}
+
+.dir-footer {
+  color: var(--text-primary);
+  white-space: pre;
+  margin-top: 0;
+}
+
+/* === Active File Row (selected) === */
+.file-row-active {
+  background: rgba(85, 255, 255, 0.08) !important;
+}
+
+.file-row-active .file-name {
+  color: var(--dos-bright-cyan) !important;
+}
+
+/* === Inline Code Display (shows file content on page) === */
+.code-display {
+  margin: 8px 0;
+  border: 1px solid var(--dos-bright-cyan);
+  background: rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+.code-display-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--dos-dark-gray);
+  white-space: pre;
+}
+
+.code-display-title {
+  color: var(--dos-bright-cyan);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+}
+
+.code-display-copy-btn {
+  background: none;
+  border: 1px solid var(--dos-yellow);
+  color: var(--dos-yellow);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  padding: 2px 12px;
+  transition: all 0.1s;
+}
+
+.code-display-copy-btn:hover {
+  background: var(--dos-yellow);
+  color: var(--dos-black);
+}
+
+.code-display-copy-btn.copied {
+  border-color: var(--dos-bright-green);
+  background: var(--dos-bright-green);
+  color: var(--dos-black);
+}
+
+.code-display-content {
+  padding: 8px;
+  color: var(--dos-white);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  white-space: pre-wrap;
+  word-break: break-all;
+  margin: 0;
+  max-height: 400px;
+  overflow-y: auto;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.code-display-content:hover {
+  background: rgba(255, 255, 85, 0.04);
+}
+
+.code-display-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.code-display-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.code-display-content::-webkit-scrollbar-thumb {
+  background: var(--dos-dark-gray);
+}
+
+.code-display-footer {
+  padding: 4px 8px;
+  border-top: 1px solid var(--dos-dark-gray);
+  color: var(--dos-dark-gray);
+  font-family: var(--font-dos);
+  font-size: 13px;
+  white-space: pre;
+}
+
+/* === Staggered Row Animation === */
+@keyframes fadeInRow {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.file-row-animate {
+  animation: fadeInRow 0.15s ease-out forwards;
+  opacity: 0;
+}
+
+/* === Search / FIND Bar === */
+.search-bar {
+  display: flex;
+  align-items: center;
+  white-space: pre;
+  color: var(--text-primary);
+  margin-top: 8px;
+}
+
+.search-bar-label {
+  color: var(--text-primary);
+}
+
+.search-bar-input {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--dos-white);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  caret-color: var(--text-primary);
+  width: 300px;
+  padding: 0;
+}
+
+.search-bar-input::placeholder {
+  color: var(--dos-dark-gray);
+}
+
+/* === Upload Progress Bar === */
+.progress-container {
+  white-space: pre;
+  color: var(--text-primary);
+  margin: 4px 0;
+}
+
+.progress-bar-track {
+  display: inline;
+}
+
+.progress-filled {
+  color: var(--dos-bright-green);
+}
+
+.progress-empty {
+  color: var(--dos-dark-gray);
+}
+
+.progress-text {
+  color: var(--text-primary);
+}
+
+.upload-success {
+  color: var(--dos-bright-green);
+}
+
+.upload-skip {
+  color: var(--dos-yellow);
+}
+
+/* === File Viewer (Full Screen Overlay) === */
+.file-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.file-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--dos-bright-cyan);
+  white-space: pre;
+  color: var(--dos-bright-cyan);
+  flex-shrink: 0;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+}
+
+.file-viewer-title {
+  color: var(--dos-bright-cyan);
+}
+
+.file-viewer-actions {
+  display: flex;
+  gap: 16px;
+}
+
+.file-viewer-btn {
+  background: none;
+  border: none;
+  color: var(--dos-yellow);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  padding: 0;
+}
+
+.file-viewer-btn:hover {
+  color: var(--dos-white);
+}
+
+.file-viewer-btn.copied-btn {
+  color: var(--dos-bright-green);
+}
+
+.file-viewer-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  color: var(--dos-white);
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+}
+
+/* === Context Menu (Delete) === */
+.context-menu {
+  position: fixed;
+  z-index: 200;
+  background: var(--dos-black);
+  border: 1px solid var(--dos-light-gray);
+  padding: 2px 0;
+  min-width: 160px;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+}
+
+.context-menu-item {
+  display: block;
+  width: 100%;
+  padding: 2px 12px;
+  background: none;
+  border: none;
+  color: var(--dos-white);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  text-align: left;
+  cursor: pointer;
+}
+
+.context-menu-item:hover {
+  background: var(--dos-light-gray);
+  color: var(--dos-black);
+}
+
+/* === Delete Confirmation === */
+.delete-confirm {
+  color: var(--dos-yellow);
+  white-space: pre;
+}
+
+.delete-confirm-key {
+  color: var(--dos-bright-green);
+}
+
+/* === Boss Key (Fake System Info) === */
+.bosskey-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 300;
+  background: var(--dos-black);
+  color: var(--dos-light-gray);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  padding: 20px;
+  overflow-y: auto;
+  cursor: default;
+}
+
+.bosskey-title {
+  color: var(--dos-white);
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.bosskey-section {
+  margin-bottom: 12px;
+}
+
+.bosskey-label {
+  color: var(--dos-bright-cyan);
+}
+
+.bosskey-value {
+  color: var(--dos-light-gray);
+}
+
+.bosskey-divider {
+  color: var(--dos-dark-gray);
+  margin: 8px 0;
+}
+
+/* === Hotkey Bar (Bottom) === */
+.hotkey-bar {
+  display: flex;
+  align-items: center;
+  height: 24px;
+  background: var(--dos-black);
+  flex-shrink: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.hotkey-item {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hotkey-key {
+  background: var(--dos-light-gray);
+  color: var(--dos-black);
+  padding: 0 4px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-family: var(--font-dos);
+  font-size: 13px;
+}
+
+.hotkey-label {
+  color: var(--dos-light-gray);
+  padding: 0 8px 0 2px;
+  font-family: var(--font-dos);
+  font-size: 13px;
+}
+
+.hotkey-item:hover .hotkey-label {
+  color: var(--dos-white);
+}
+
+.hotkey-spacer {
+  flex: 1;
+}
+
+/* === Terminal Messages === */
+.terminal-message {
+  white-space: pre;
+  margin: 2px 0;
+}
+
+.terminal-message.success {
+  color: var(--dos-bright-green);
+}
+
+.terminal-message.error {
+  color: var(--dos-bright-red);
+}
+
+.terminal-message.info {
+  color: var(--dos-bright-cyan);
+}
+
+.terminal-message.warning {
+  color: var(--dos-yellow);
+}
+
+/* === Scrollbar Styling === */
+.terminal-body::-webkit-scrollbar {
+  width: 12px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+  background: var(--dos-dark-gray);
+  border: 1px solid var(--dos-light-gray);
+}
+
+.file-viewer-content::-webkit-scrollbar {
+  width: 12px;
+}
+
+.file-viewer-content::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+.file-viewer-content::-webkit-scrollbar-thumb {
+  background: var(--dos-dark-gray);
+  border: 1px solid var(--dos-light-gray);
+}
+
+/* === Utility === */
+.hidden {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* === INTERACTIVE TERMINAL STYLES === */
+
+/* Terminal input field */
+.terminal-input {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--dos-light-gray);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  caret-color: var(--dos-light-gray);
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  font-weight: normal;
+  letter-spacing: 0;
+}
+
+.terminal-input::placeholder {
+  color: var(--dos-dark-gray);
+}
+
+/* Input line container */
+.input-line {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  color: var(--dos-light-gray);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* File listing container */
+.file-listing {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 2px 0;
+  padding: 0;
+}
+
+/* File row in listing */
+.file-row {
+  display: flex;
+  align-items: center;
+  color: var(--dos-light-gray);
+  padding: 1px 0;
+  margin: 0;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height);
+  white-space: nowrap;
+  position: relative;
+  transition: background-color 0.1s;
+}
+
+.file-row:hover {
+  background-color: rgba(170, 170, 170, 0.15);
+}
+
+/* File name with reduced opacity */
+.file-name {
+  color: var(--dos-light-gray);
+  opacity: 0.7;
+  cursor: pointer;
+  flex: 1;
+  padding-right: 8px;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  font-weight: normal;
+  letter-spacing: 0;
+}
+
+.file-row:hover .file-name {
+  opacity: 1;
+  color: var(--dos-white);
+}
+
+/* Copy button in file listing */
+.copy-btn {
+  background: none;
+  border: none;
+  color: transparent;
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  cursor: pointer;
+  padding: 0 4px;
+  margin-left: auto;
+  margin-right: 4px;
+  font-weight: normal;
+  letter-spacing: 0;
+  transition: color 0.1s;
+  flex-shrink: 0;
+}
+
+.file-row:hover .copy-btn {
+  color: var(--dos-bright-cyan);
+}
+
+.copy-btn:hover {
+  color: var(--dos-yellow);
+}
+
+.copy-btn:active {
+  color: var(--dos-bright-green);
+}
+
+/* Copy status indicator */
+.copy-status {
+  color: var(--dos-bright-green);
+  font-family: var(--font-dos);
+  font-size: var(--font-size-base);
+  margin-left: auto;
+  margin-right: 8px;
+  font-weight: normal;
+  letter-spacing: 0;
+  flex-shrink: 0;
+}
+
+/* Terminal output line types */
+.terminal-line.command {
+  color: var(--dos-light-gray);
+}
+
+.terminal-line.output {
+  color: var(--dos-light-gray);
+}
+
+.terminal-line.blank {
+  height: var(--line-height);
+}
+
+.terminal-line.error {
+  color: var(--dos-bright-red);
+}
+
+.terminal-line.code {
+  color: var(--dos-bright-green);
+  margin: 2px 0;
+  padding: 0;
+}
