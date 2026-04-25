@@ -1,0 +1,21 @@
+ORG 0000H
+    MOV TMOD, #20H
+    MOV TH1, #0FDH
+    MOV SCON, #50H
+    SETB TR1
+    MOV DPTR, #MSG
+NEXT:
+    CLR A
+    MOVC A, @A+DPTR
+    JZ DONE
+    MOV SBUF, A
+WAIT:
+    JNB TI, WAIT
+    CLR TI
+    INC DPTR
+    SJMP NEXT
+DONE:
+    SJMP $
+
+MSG: DB 'HELLO', 0
+END
