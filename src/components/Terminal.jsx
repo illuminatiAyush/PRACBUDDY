@@ -152,18 +152,16 @@ export default function Terminal({ children, onUpload, onFind, onBossKey }) {
           {showFileList && (
             <div className="file-listing">
               {ASM_FILES.map((file) => (
-                <div key={file} className="file-row">
+                <div
+                  key={file}
+                  className={`file-row ${copiedFile === file ? 'file-row-just-copied' : ''}`}
+                  onClick={() => handleCopyFile(file)}
+                  title="Click anywhere to copy code"
+                >
                   <span className="file-name">{file}</span>
-                  {copiedFile === file && (
-                    <span className="copy-status">✓ COPIED</span>
-                  )}
-                  <button 
-                    className="copy-btn"
-                    onClick={() => handleCopyFile(file)}
-                    title="Copy file content"
-                  >
-                    [COPY]
-                  </button>
+                  <span className="file-row-copy-label">
+                    {copiedFile === file ? '✓ COPIED' : '[COPY]'}
+                  </span>
                 </div>
               ))}
             </div>
