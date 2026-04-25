@@ -1,0 +1,36 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    NUM1   DW 000CH
+    NUM2   DW 0008H
+    RESULT DW ?
+
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+    MOV AX, NUM1
+    MOV BX, NUM2
+    MOV CX, AX
+    MOV SI, BX
+GCD:
+    CMP AX, BX
+    JE DONE
+    JL LESS
+    SUB AX, BX
+    JMP GCD
+LESS:
+    SUB BX, AX
+    JMP GCD
+DONE:
+    MOV BX, AX
+    MOV AX, CX
+    XOR DX, DX
+    MUL SI
+    DIV BX
+    MOV RESULT, AX
+    MOV AH, 4CH
+    INT 21H
+MAIN ENDP
+END MAIN

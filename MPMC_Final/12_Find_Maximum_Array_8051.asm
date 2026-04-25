@@ -1,0 +1,21 @@
+ORG 0000H
+    MOV R0, #30H
+    MOV R2, #05H
+    MOV A, @R0
+    MOV 50H, A
+    DEC R2
+LP1:
+    INC R0
+    MOV A, @R0
+    CJNE A, 50H, CHK
+CHK:
+    JC SKIP1
+    MOV 50H, A
+SKIP1:
+    DJNZ R2, LP1
+    MOV 40H, 50H
+    SJMP $
+
+ORG 30H
+DB 05H, 02H, 08H, 01H, 09H
+END

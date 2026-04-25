@@ -1,0 +1,31 @@
+.MODEL SMALL
+.STACK 100H
+
+.DATA
+    SOURCE DB 01H, 02H, 03H, 04H, 05H
+    DEST   DB 5 DUP(?)
+
+.CODE
+MAIN PROC
+    MOV AX, @DATA
+    MOV DS, AX
+    MOV SI, 0
+    MOV CX, 5
+LP1:
+    MOV AL, SOURCE[SI]
+    MOV DEST[SI], AL
+    INC SI
+    DEC CX
+    JNZ LP1
+    MOV SI, 0
+    MOV CX, 5
+LP2:
+    MOV AL, DEST[SI]
+    MOV SOURCE[SI], AL
+    INC SI
+    DEC CX
+    JNZ LP2
+    MOV AH, 4CH
+    INT 21H
+MAIN ENDP
+END MAIN
