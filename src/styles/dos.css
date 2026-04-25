@@ -945,36 +945,43 @@ body {
   padding: 0;
 }
 
-/* File row in listing */
+/* File row in listing — entire row is clickable */
 .file-row {
   display: flex;
   align-items: center;
   color: var(--dos-light-gray);
-  padding: 1px 0;
+  padding: 2px 4px;
   margin: 0;
   font-family: var(--font-dos);
   font-size: var(--font-size-base);
   line-height: var(--line-height);
   white-space: nowrap;
   position: relative;
+  cursor: pointer;
   transition: background-color 0.1s;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .file-row:hover {
-  background-color: rgba(170, 170, 170, 0.15);
+  background-color: rgba(85, 255, 255, 0.12);
 }
 
-/* File name with reduced opacity */
+.file-row:active {
+  background-color: rgba(85, 255, 85, 0.2);
+}
+
+/* File name */
 .file-name {
   color: var(--dos-light-gray);
   opacity: 0.7;
-  cursor: pointer;
   flex: 1;
   padding-right: 8px;
   font-family: var(--font-dos);
   font-size: var(--font-size-base);
   font-weight: normal;
   letter-spacing: 0;
+  pointer-events: none;
 }
 
 .file-row:hover .file-name {
@@ -982,45 +989,36 @@ body {
   color: var(--dos-white);
 }
 
-/* Copy button in file listing */
-.copy-btn {
-  background: none;
-  border: none;
+/* Copy label on the right — part of the row, not a separate button */
+.file-row-copy-label {
   color: transparent;
   font-family: var(--font-dos);
   font-size: var(--font-size-base);
-  cursor: pointer;
-  padding: 0 4px;
   margin-left: auto;
   margin-right: 4px;
   font-weight: normal;
   letter-spacing: 0;
-  transition: color 0.1s;
   flex-shrink: 0;
+  pointer-events: none;
+  transition: color 0.1s;
 }
 
-.file-row:hover .copy-btn {
+.file-row:hover .file-row-copy-label {
   color: var(--dos-bright-cyan);
 }
 
-.copy-btn:hover {
-  color: var(--dos-yellow);
+/* Flash green when just copied */
+.file-row-just-copied {
+  background-color: rgba(85, 255, 85, 0.18) !important;
 }
 
-.copy-btn:active {
-  color: var(--dos-bright-green);
+.file-row-just-copied .file-name {
+  color: var(--dos-bright-green) !important;
+  opacity: 1;
 }
 
-/* Copy status indicator */
-.copy-status {
-  color: var(--dos-bright-green);
-  font-family: var(--font-dos);
-  font-size: var(--font-size-base);
-  margin-left: auto;
-  margin-right: 8px;
-  font-weight: normal;
-  letter-spacing: 0;
-  flex-shrink: 0;
+.file-row-just-copied .file-row-copy-label {
+  color: var(--dos-bright-green) !important;
 }
 
 /* Terminal output line types */
