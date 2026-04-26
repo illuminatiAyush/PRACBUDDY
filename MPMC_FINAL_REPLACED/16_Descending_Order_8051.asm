@@ -1,0 +1,26 @@
+ORG 0000H
+    MOV R5, #04H
+OUTER:
+    MOV R6, #04H
+    MOV R0, #30H
+INNER:
+    MOV A, R0
+    ADD A, #01H
+    MOV R1, A
+    MOV A, @R0
+    MOV 50H, A
+    MOV A, @R1
+    CJNE A, 50H, CHK
+CHK:
+    JC NOSWAP
+    MOV @R1, 50H
+    MOV @R0, A
+NOSWAP:
+    INC R0
+    DJNZ R6, INNER
+    DJNZ R5, OUTER
+    SJMP $
+
+ORG 30H
+DB 05H, 03H, 08H, 01H, 07H
+END

@@ -1,0 +1,13 @@
+ORG 0000H
+    MOV TMOD, #01H
+HERE:
+    CPL P1.2
+    MOV TH0, #0FCH
+    MOV TL0, #18H
+    SETB TR0
+WAIT:
+    JNB TF0, WAIT
+    CLR TR0
+    CLR TF0
+    SJMP HERE
+END
