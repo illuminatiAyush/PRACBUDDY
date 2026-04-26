@@ -1,0 +1,13 @@
+ORG 0000H
+string1: DB 22H,10H,13H,50H,73H
+string2: DB 00H,00H,00H,00H,00H
+start: MOV R0,#string1
+MOV R1,#string2
+MOV R2,#05H
+copy: MOV A,@R0
+MOV @R1,A
+INC R0
+INC R1
+DJNZ R2,copy
+HERE: SJMP HERE
+END
