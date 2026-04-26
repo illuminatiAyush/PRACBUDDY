@@ -1,0 +1,17 @@
+ORG 0000H
+list: DB 04H,05H,06H,07H,08H
+min: DB 00H
+MOV R2,#05H
+MOV R0,#list
+MOV A,@R0
+DEC R2
+entry: INC R0
+MOV R1,@R0
+CLR C
+SUBB A,R1
+JC inLis
+MOV A,R1
+inLis: DJNZ R2,entry
+MOV min,A
+HERE: SJMP HERE
+END

@@ -1,0 +1,18 @@
+ORG 0000H
+    MOV R0, #30H
+    MOV R2, #05H
+    MOV A, #03H
+SEARCH:
+    CJNE A, @R0, NEXT
+    MOV 40H, #01H
+    SJMP DONE
+NEXT:
+    INC R0
+    DJNZ R2, SEARCH
+    MOV 40H, #00H
+DONE:
+    SJMP $
+
+ORG 30H
+DB 01H, 02H, 03H, 04H, 05H
+END

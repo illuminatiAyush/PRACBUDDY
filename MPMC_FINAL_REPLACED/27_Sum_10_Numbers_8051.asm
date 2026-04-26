@@ -1,0 +1,19 @@
+ORG 0000H
+    MOV R0, #30H
+    MOV R2, #0AH
+    CLR A
+    MOV R3, #00H
+LP1:
+    ADD A, @R0
+    JNC SKIP1
+    INC R3
+SKIP1:
+    INC R0
+    DJNZ R2, LP1
+    MOV 40H, A
+    MOV 41H, R3
+    SJMP $
+
+ORG 30H
+DB 01H, 02H, 03H, 04H, 05H, 06H, 07H, 08H, 09H, 0AH
+END
